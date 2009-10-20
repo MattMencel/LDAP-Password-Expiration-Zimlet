@@ -1,0 +1,7 @@
+- MUST DOWNLOAD AND UNPACK THE commons-lang-2.4..jar LIBRARY (http://commons.apache.org/downloads/download_lang.cgi) TO /opt/zimbra/jetty/common/lib/
+
+If anyone knows how to pull all the config items in ldap.jsp (bind_dn, search_attr, etc...) out into a config file of some kind, please let me know.
+
+If there is anything you need clarified in this README let me know.
+
+-Matt
