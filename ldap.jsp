@@ -122,8 +122,7 @@ final class LdapStuff{
 		}
 		catch (NamingException e){
 			//Authentication Failed
-			output.println("Caught Error: ");
-			output.println(e);
+			e.printStackTrace();
 		}
 		return ctx;
 	}
