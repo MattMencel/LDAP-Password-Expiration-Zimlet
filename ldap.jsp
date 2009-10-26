@@ -27,7 +27,7 @@ final class LdapStuff{
 		String search_attrs = GetProperties("search_attrs");
 		String result = "";
 		if (search_attrs.contains(",")){
-			String[] attrs = search_attrs.split(',');
+			String[] attrs = search_attrs.split(",");
 			for (String search_attr: attrs){
 				result = result.concat("("+search_attr+"="+zimbraUid+")");
 			}
