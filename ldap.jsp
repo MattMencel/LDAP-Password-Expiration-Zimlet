@@ -1,5 +1,5 @@
 <%@ page contentType='text/xml'%>
-<%@ page language="java" 
+<%@ page language="java" %>
 <%@ page import="com.sun.jndi.ldap.*" %>
 <%@ page import="java.lang.String" %>
 <%@ page import="java.io.*" %>
