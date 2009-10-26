@@ -26,7 +26,7 @@ final class LdapStuff{
 		output = output;
 		String search_attrs = GetProperties("search_attrs");
 		String result = "";
-		if (search_attrs.contains(',')){
+		if (search_attrs.contains(",")){
 			String[] attrs = search_attrs.split(',');
 			for (String search_attr: attrs){
 				result = result.concat("("+search_attr+"="+zimbraUid+")");
@@ -44,7 +44,7 @@ final class LdapStuff{
 		//try retrieve data from file
 		try {
 			props.load(new FileInputStream("ldap.properties"));
-			prop_val = props.getProperty(prop);
+			String prop_val = props.getProperty(prop);
 			return prop_val;
 		}
 		catch(IOException e){
