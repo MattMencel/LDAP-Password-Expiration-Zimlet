@@ -46,11 +46,11 @@ final class LdapStuff{
 		try {
 			props.load(new FileInputStream("ldap.properties"));
 			prop_val = props.getProperty(prop);
-			return prop_val;
 		}
 		catch(IOException e){
 			e.printStackTrace();
 		}
+		return prop_val;
 	}
 	
 	private String GetPasswordExpirationResult(String filter){
