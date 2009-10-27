@@ -40,11 +40,14 @@ final class LdapStuff{
 	}//end init()
 
 	private String GetProperties(String prop){
+		InputStream stream = null;
 		Properties props =  new Properties();
 		String prop_val = "";
 		//try retrieve data from file
 		try {
-			props.load(new FileInputStream("ldap.properties"));
+			stream = this.getClass().getResourceAsStream("ldap.properties");
+//			props.load(new FileInputStream("ldap.properties"));
+			props.load( stream );
 			prop_val = props.getProperty(prop);
 		}
 		catch(IOException e){
