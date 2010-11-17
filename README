@@ -1,7 +1,10 @@
 The commons-lang-2.5.jar library (http://commons.apache.org/downloads/download_lang.cgi) should deploy automatically if it is zipped up in the zimlet.
 
-I want to break the site customized variables out of the ldap.jsp file.  If anyone knows how to pull all the config items in ldap.jsp (bind_dn, search_attr, etc...) out into a config file of some kind, please let me know.  I've tried using a .properties files and can't seem to get it to work in the JSP.
+- ldap.properties
+This currently doesn't work.  I want to break the site customized variables out of the ldap.jsp file.  If anyone knows how to pull all the config items in ldap.jsp (bind_dn, search_attr, etc...) out into a config file of some kind, please let me know.  I've tried using a .properties files and can't seem to get it to work in the JSP.
 
 If there is anything you need clarified in this README let me know.
+
+If you make modifications/improvements please share them back.
 
 -Matt
