@@ -1,12 +1,5 @@
 <%@ page contentType='text/xml'%>
-<%@ page language="java" %>
-<%@ page import="com.sun.jndi.ldap.*" %>
-<%@ page import="java.lang.String" %>
-<%@ page import="java.io.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="javax.naming.*" %>
-<%@ page import="javax.naming.directory.*" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page language="java" import="com.sun.jndi.ldap.*, java.lang.String, java.io.*, java.util.*, javax.naming.*, javax.naming.directory.*, org.apache.commons.lang.StringEscapeUtils"%>
 <%@ page import="com.zimbra.cs.account.Provisioning" %>
 <%@ page import="com.zimbra.cs.account.Provisioning.AccountBy" %>
 <%@ page import="com.zimbra.cs.account.Account" %>
@@ -24,48 +17,22 @@ final class LdapStuff{
 		zimbraUid = args[0];
 		action = args[1];
 		output = output;
-		String search_attrs = GetProperties("search_attrs");
 		String result = "";
-		if (search_attrs.contains(",")){
-			String[] attrs = search_attrs.split(",");
-			for (String search_attr: attrs){
-				result = result.concat("("+search_attr+"="+zimbraUid+")");
-			}
-			result = GetPasswordExpirationResult("(|"+result+")");
-		}
-		else {
-			result = GetPasswordExpirationResult("("+search_attrs+"="+zimbraUid+")");
+		if (action.equals("getpwexp")){
+			result = GetPasswordExpirationResult("(|(wiualias="+zimbraUid+")(uid="+zimbraUid+"))");
 		}
 		return result;
 	}//end init()
 
-	private String GetProperties(String prop){
-		InputStream stream = null;
-		Properties props =  new Properties();
-		String prop_val = "";
-		//try retrieve data from file
-		try {
-			stream = this.getClass().getResourceAsStream("ldap.properties");
-//			props.load(new FileInputStream("ldap.properties"));
-			props.load( stream );
-			prop_val = props.getProperty(prop);
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		return prop_val;
-	}
-	
 	private String GetPasswordExpirationResult(String filter){
 		String value = "";
-		String search_base = GetProperties("search_base");
 		try {
 			DirContext ctx = LdapConn();
 	  		SearchControls searchControls = new SearchControls();
 	  		searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 			String[] attrNames = {"passwordExpirationTime","pwdChangedTime"};
 			searchControls.setReturningAttributes(attrNames);
-	  		NamingEnumeration results = ctx.search(search_base, filter, searchControls);
+	  		NamingEnumeration results = ctx.search("dc=wiu,dc=edu", filter, searchControls);
 			ctx.close();
 			value = GetResultXml(results);
 		}	
@@ -108,24 +75,26 @@ final class LdapStuff{
 	
 	private DirContext LdapConn(){
 		DirContext ctx = null;
-		String ldap_server = GetProperties("ldap_server");
-		String bind_dn = GetProperties("bind_dn");
-		String bind_pass = GetProperties("bind_pass");		
+		String ldapServerName = "xxx.xxx.xxx";
+		String user = "XXXXXXX";
+		String pass = "XXXXXXX";
+		String dn= "cn=" . concat(user) . concat(",ou=applications,dc=wiu,dc=edu");
 
 		Properties env = new Properties();
 		env.put( Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory" );
 		env.put("java.naming.ldap.version", "3");
-		env.put( Context.PROVIDER_URL, "ldap://"+ ldap_server + "/");
+		env.put( Context.PROVIDER_URL, "ldap://"+ ldapServerName + "/");
 		env.put( Context.SECURITY_AUTHENTICATION, "simple");
-		env.put( Context.SECURITY_PRINCIPAL, bind_dn );
-		env.put( Context.SECURITY_CREDENTIALS, bind_pass );
+		env.put( Context.SECURITY_PRINCIPAL, dn );
+		env.put( Context.SECURITY_CREDENTIALS, pass );
 	  
 		try{
 			ctx = new InitialDirContext( env );
 		}
 		catch (NamingException e){
 			//Authentication Failed
-			e.printStackTrace();
+			output.println("Caught Error: ");
+			output.println(e);
 		}
 		return ctx;
 	}

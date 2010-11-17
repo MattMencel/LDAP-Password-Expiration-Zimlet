@@ -28,13 +28,15 @@ edu_wiu_password_expiry_checker.prototype.init = function() {
 	var hh = expiryDate.substring(8,10);
 	var mm = expiryDate.substring(10,12);
 	var ss = expiryDate.substring(12,14);
-	var willExpire = new Date(mo+"/"+da+"/"+yyyy+" "+hh+":"+mm+":"+ss);
-	
+        //Month needs to be converted to UNIX format(mo-1)
+	var willExpire = new Date(Date.UTC(yyyy,mo-1,da,hh,mm,ss));
+
 	willExpire = willExpire - todaysDate;
+
 	if ((willExpire <= 1209600000)&&(willExpire>0)) {
 		//expiration less than 14 days away
 		willExpire = this.convertMilliseconds(willExpire);
-		this.showExpiryMessage(willExpires);
+		this.showExpiryMessage(willExpire);
 	}	
 };
 
