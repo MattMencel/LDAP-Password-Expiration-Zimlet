@@ -1,3 +1,5 @@
+This is a zimlet which works against a Sun ONE LDAP server.  It checks to see if the users password is expired and will prompt them to change it if it's within 14 days of expiration.  It's pretty customized for our site, but it should be pretty clear what you need to change to get it to work at your site.
+
 The commons-lang-2.5.jar library (http://commons.apache.org/downloads/download_lang.cgi) should deploy automatically if it is zipped up in the zimlet.
 
 - ldap.properties
